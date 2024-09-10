@@ -69,7 +69,8 @@ class Store {
       list: this.state.list.map(item => {
         if (item.code === code) {
           item.selected = !item.selected;
-        }
+          item.selected ? item.count++ : item.count;
+        } else item.selected = false;
         return item;
       }),
     });

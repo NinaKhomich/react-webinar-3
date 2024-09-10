@@ -45,6 +45,10 @@ body {
   color: #fff;
 }
 
+.Item-count {
+  align-self: center;
+}
+
 .Item-code {
   padding: 20px 10px 20px 20px;
 }

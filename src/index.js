@@ -15,6 +15,8 @@ const store = new Store({
     { code: 7, title: 'Седьмая запись' },
   ],
 });
+console.log(store);
+store.state.list = store.state.list.map((item) => { return {...item, count: 0} });
 
 const root = createRoot(document.getElementById('root'));
 
