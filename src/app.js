@@ -9,6 +9,13 @@ import './styles.css';
  */
 function App({ store }) {
   const list = store.getState().list;
+  const getNoun = (n) => {
+    n %= 100;
+    if (n >= 5 && n <= 20 || n == 1) return 'раз';
+    n %= 10;
+    if (n >= 2 && n <= 4) return 'раза';
+    return 'раз';
+  }
 
   return (
     <div className="App">
@@ -28,7 +35,7 @@ function App({ store }) {
               >
                 <div className="Item-code">{item.code}</div>
                 <div className="Item-title">{item.title}</div>
-                { item.count > 0 ? <div className='Item-count'>Выделяли {item.count} раз</div> : null }
+                { item.count > 0 ? <div className='Item-count'>Выделяли {item.count} {getNoun(item.count)}</div> : null }
                 <div className="Item-actions">
                   <button onClick={() => store.deleteItem(item.code)}>Удалить</button>
                 </div>
