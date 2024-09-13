@@ -17,7 +17,7 @@ const store = new Store({
 });
 
 store.state.list = store.state.list.map((item) => { return {...item, count: 0} });
-store.state.codes = store.state.list.map(item => item.code);
+store.state.lastCode = store.state.list[store.state.list.length - 1].code;
 
 const root = createRoot(document.getElementById('root'));
 

@@ -28,14 +28,6 @@ class Store {
     return this.state;
   }
 
-  randomCode() { // генерация уникального случайного числа
-    let randomNumber;
-    do {
-      randomNumber = Math.floor((Math.random()*(50-1))+1); // рандомное число от 1 до 50;
-    } while (this.state.codes.indexOf(randomNumber) != -1) // проверка наличия кода в списке
-    return randomNumber;
-  }
-
   /**
    * Установка состояния
    * @param newState {Object}
@@ -50,11 +42,11 @@ class Store {
    * Добавление новой записи
    */
   addItem() {
-    let newItemCode = this.randomCode()
+    let newItemCode = this.state.lastCode + 1;
     this.setState({
       ...this.state,
       list: [...this.state.list, { code: newItemCode, title: 'Новая запись', count: 0 }],
-      codes: [...this.state.codes, newItemCode],
+      lastCode: newItemCode,
     });
   }
 
