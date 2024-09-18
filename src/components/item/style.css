@@ -1,7 +1,7 @@
 .Item {
   display: flex;
   justify-content: flex-start;
-  transition: background-color 1s;
+  align-items: center;
 }
 
 .Item-code {
@@ -9,22 +9,28 @@
 }
 
 .Item-title {
-  /* width: 100%; */
+  width: 100%;
   padding: 20px 10px;
 }
 
 .Item-price {
+  font-size: 18px;
+  width: 140px;
+  text-align: end;
   margin-left: auto;
   padding: 20px 10px;
 }
 
 .Item-count {
-  margin-left: 42px;
-  padding: 20px 10px;
+  font-size: 18px;
+  width: 80px;
+  text-align: end;
+  padding-left: 20px;
 }
 
 .Item-actions {
   display: flex;
   justify-content: flex-end;
-  padding: 20px 20px 20px 10px;
+  padding: 20px;
+  width: 76px;
 }

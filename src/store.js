@@ -64,20 +64,20 @@ class Store {
               return {
                 ...item,
                 count: item.count + 1,
-              }
+              };
             }
             return item;
-          })
+          }),
         })
       : this.setState({
           ...this.state,
-          cartList: [...this.state.cartList, {...newItem, count: 1}],
-        })
+          cartList: [...this.state.cartList, { ...newItem, count: 1 }],
+        });
   }
 
   getTotalCost(list) {
     return list.reduce((sum, item) => {
-      return sum = sum + item.count * item.price;
+      return (sum = sum + item.count * item.price);
     }, 0);
   }
 }

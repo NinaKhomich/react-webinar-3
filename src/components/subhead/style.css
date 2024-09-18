@@ -1,0 +1,12 @@
+.Subhead {
+  display: flex;
+  align-items: center;
+  justify-content: end;
+}
+
+.Subhead-info {
+  font-size: 18px;
+  font-weight: bold;
+  margin-left: 15px;
+  margin-right: 5px;
+}

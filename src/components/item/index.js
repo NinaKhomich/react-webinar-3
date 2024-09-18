@@ -3,31 +3,32 @@ import PropTypes from 'prop-types';
 import { cn as bem } from '@bem-react/classname';
 import './style.css';
 
-function Item(props) {
+function Item({ item, isCart, onDelete = () => {}, onAddToCart = () => {} }) {
   const cn = bem('Item');
 
   const callbacks = {
     onDelete: e => {
       e.stopPropagation();
-      props.onDelete(props.item.code);
+      onDelete(item.code);
     },
     onAddToCart: e => {
       e.stopPropagation();
-      props.onAddToCart(props.item.code);
+      onAddToCart(item.code);
     },
   };
 
   return (
     <div className={cn()}>
-      <div className={cn("code")}>{props.item.code}</div>
-      <div className={cn("title")}>{props.item.title}</div>
-      <span className={cn("price")}>{props.item.price} ₽</span>
-      { props.isCart ? <span className={cn("count")}>{props.item.count} шт</span> : null }
-      <div className={cn("actions")}>
-      { props.isCart
-        ? <button onClick={callbacks.onDelete}>Удалить</button>
-        : <button onClick={callbacks.onAddToCart}>Добавить</button>
-      }
+      <div className={cn('code')}>{item.code}</div>
+      <div className={cn('title')}>{item.title}</div>
+      <span className={cn('price')}>{item.price} ₽</span>
+      {isCart ? <span className={cn('count')}>{item.count} шт</span> : null}
+      <div className={cn('actions')}>
+        {isCart ? (
+          <button onClick={callbacks.onDelete}>Удалить</button>
+        ) : (
+          <button onClick={callbacks.onAddToCart}>Добавить</button>
+        )}
       </div>
     </div>
   );
@@ -43,11 +44,6 @@ Item.propTypes = {
   }).isRequired,
   onDelete: PropTypes.func,
   onAddToCart: PropTypes.func,
-};
-
-Item.defaultProps = {
-  onDelete: () => {},
-  onAddToCart: () => {},
 };
 
 export default React.memo(Item);

@@ -1,0 +1,17 @@
+.Modal {
+  position: fixed;
+  top: 0;
+  right: 0;
+  left: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, .7);
+  display: flex;
+  visibility: hidden;
+  opacity: 0;
+  transition: opacity .3s;
+}
+
+.Modal-visible {
+  visibility: visible;
+  opacity: 1;
+}
