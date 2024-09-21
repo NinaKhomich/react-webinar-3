@@ -1,6 +1,6 @@
 .Cart {
   width: 100%;
-  max-width: 920px;
+  max-width: 960px;
   margin: auto;
   border-radius: 10px;
   background-color: #fff;
@@ -27,12 +27,12 @@
 .Cart-cost {
   min-width: 60px;
   text-align: end;
-  padding-left: 20px;
+  padding-left: 32px;
 }
 
 .Cart-result {
   display: flex;
   justify-content: end;
   text-align: end;
-  padding: 20px 105px;
+  padding: 24px 120px 16px;
 }

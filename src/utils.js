@@ -50,3 +50,9 @@ export const generateCode1 = (function (start = 0) {
 export function generateCode2() {
   return generateCode2.value ? ++generateCode2.value : (generateCode2.value = 1);
 }
+
+// форматирование чисел. отделение разрядов тысяч пробелом
+export function formatPrice(price) {
+  const newPriceForm = (String(price).replace(/(\d)(?=(\d\d\d)+([^\d]|$))/g, '$1 '));
+  return newPriceForm;
+}

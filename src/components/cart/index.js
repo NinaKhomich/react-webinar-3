@@ -5,6 +5,7 @@ import Controls from '../controls';
 import List from '../list';
 import './style.css';
 import { cn as bem } from '@bem-react/classname';
+import ItemCart from '../item-cart';
 
 function Cart({ list, totalCost, onDeleteItem = () => {}, onCloseCart = () => {} }) {
   const cn = bem('Cart');
@@ -15,7 +16,9 @@ function Cart({ list, totalCost, onDeleteItem = () => {}, onCloseCart = () => {}
         <Head title={'Корзина'} />
         <Controls isCart={true} onClickBtn={onCloseCart} btnText={'Закрыть'} />
       </div>
-      <List isCart={true} list={list} onDeleteItem={onDeleteItem} />
+      <List list={list} >
+        <ItemCart onDeleteItem={onDeleteItem} />
+      </List>
       <div className={cn('result')}>
         <span className={cn('total')}>Итого:</span>
         <span className={cn('cost')}>{totalCost} ₽</span>

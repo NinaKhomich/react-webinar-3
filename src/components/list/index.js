@@ -1,14 +1,16 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import Item from '../item';
 import './style.css';
 
-function List({ isCart, list, onDeleteItem = () => {}, onAddItemToCart = () => {} }) {
+function List({ list, children }) {
   return (
     <div className="List">
       {list.map(item => (
         <div key={item.code} className="List-item">
-          <Item isCart={isCart} item={item} onDelete={onDeleteItem} onAddToCart={onAddItemToCart} />
+          {React.Children.map(children, child => {
+            // Клонируем каждый дочерний элемент, добавляя или изменяя его пропсы
+            return React.cloneElement(child, { item: item });
+          })}
         </div>
       ))}
     </div>
@@ -16,14 +18,12 @@ function List({ isCart, list, onDeleteItem = () => {}, onAddItemToCart = () => {
 }
 
 List.propTypes = {
-  isCart: PropTypes.bool,
   list: PropTypes.arrayOf(
     PropTypes.shape({
       code: PropTypes.number,
     }),
   ).isRequired,
-  onDeleteItem: PropTypes.func,
-  onAddItemToCart: PropTypes.func,
+  children: PropTypes.node,
 };
 
 export default React.memo(List);

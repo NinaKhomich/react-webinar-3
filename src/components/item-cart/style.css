@@ -1,37 +1,37 @@
-.Item {
+.ItemCart {
   display: flex;
   justify-content: flex-start;
   align-items: center;
   min-height: 60px;
 }
 
-.Item-code {
+.ItemCart-code {
   padding: 0 10px 0 20px;
 }
 
-.Item-title {
+.ItemCart-title {
   width: 100%;
   padding: 0 10px;
 }
 
-.Item-price {
+.ItemCart-price {
   font-size: 18px;
   min-width: 140px;
   text-align: end;
   margin-left: auto;
-  padding: 0 5px;
+  padding: 0 30px 0 5px;
 }
 
-.Item-count {
+.ItemCart-count {
   font-size: 18px;
   width: 80px;
   text-align: end;
   padding-left: 20px;
 }
 
-.Item-actions {
+.ItemCart-actions {
   display: flex;
   justify-content: flex-end;
-  padding: 0 20px;
+  margin: 0 26px;
   width: 76px;
 }

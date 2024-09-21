@@ -32,7 +32,7 @@ function Subhead({ cartList, totalCost, onOpenCart = () => {} }) {
 
 Subhead.propTypes = {
   cartList: PropTypes.array,
-  totalCost: PropTypes.number,
+  totalCost: PropTypes.string,
   onOpenCart: PropTypes.func,
 };
 
