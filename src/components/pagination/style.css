@@ -27,10 +27,6 @@
   color: #fff;
 }
 
-.Pagination-page-isVisible {
-  display: block;
-}
-
 .Pagination-page-isHidden {
   display: none;
 }

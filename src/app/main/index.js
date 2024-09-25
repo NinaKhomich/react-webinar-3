@@ -21,6 +21,7 @@ function Main() {
     totalCount: state.catalog.totalCount,
     amount: state.basket.amount,
     sum: state.basket.sum,
+    item: state.product.item,
   }));
 
   const callbacks = {
@@ -30,14 +31,16 @@ function Main() {
     openModalBasket: useCallback(() => store.actions.modals.open('basket'), [store]),
     //  Переход по страницам каталога
     paginate: useCallback(number => store.actions.catalog.paginate(number), [store]),
+    // получение товара по id
+    getProduct: useCallback(_id => store.actions.product.getProductById(_id), [store]),
   };
 
   const renders = {
     item: useCallback(
       item => {
-        return <Item item={item} onAdd={callbacks.addToBasket} />;
+        return <Item item={item} onAdd={callbacks.addToBasket} getProduct={callbacks.getProduct}/>;
       },
-      [callbacks.addToBasket],
+      [callbacks.addToBasket, callbacks.getProduct],
     ),
   };
 
