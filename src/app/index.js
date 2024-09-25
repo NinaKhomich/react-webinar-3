@@ -16,10 +16,10 @@ function App() {
   return (
     <>
       <Routes>
-        <Route path='/' element={<Main />} />
-        <Route path='/productPage' element={<ProductPage />} />
+        <Route path="/" element={<Main />} />
+        <Route path="/productPage" element={<ProductPage />} />
       </Routes>
-        {activeModal === 'basket' && <Basket />}
+      {activeModal === 'basket' && <Basket />}
     </>
   );
 }

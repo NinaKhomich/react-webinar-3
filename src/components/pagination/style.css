@@ -15,23 +15,21 @@
   padding: 1px 2px;
   min-width: 20px;
   cursor: pointer;
+  transition: background-color .4s, color .4s;
 }
 
-.Pagination-page:hover {
+.Pagination-page:not(.Pagination-page-dots):hover {
   background-color: #535353;
   color: #fff;
 }
 
-.Pagination-page-isCurrent {
+.Pagination-page-active {
   background-color: #0087E9;
   color: #fff;
 }
 
-.Pagination-page-isHidden {
-  display: none;
-}
-
-.Pagination-dots {
+.Pagination-page-dots {
   width: 20px;
   color: #ccc;
+  cursor: default;
 }
