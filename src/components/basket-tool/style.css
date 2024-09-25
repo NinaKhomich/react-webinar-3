@@ -1,9 +1,19 @@
 /* Контрол с общими действиями */
 .BasketTool {
   display: flex;
-  justify-content: flex-end;
+  justify-content: space-between;
+  align-items: center;
   padding: 20px;
   font-size: 18px;
+}
+
+.BasketTool-link {
+  color: #0087E9;
+}
+
+.BasketTool-container {
+  display: flex;
+  justify-content: flex-end;
 }
 
 .BasketTool-label {

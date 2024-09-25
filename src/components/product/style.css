@@ -1,0 +1,23 @@
+.Product {
+  padding: 20px 40px;
+}
+
+.Product-features {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.Product-feature {
+  margin-bottom: 20px;
+  font-size: 18px;
+}
+
+.Product-value {
+  font-weight: bold;
+}
+
+.Product-price {
+  font-size: 24px;
+  font-weight: bold;
+}

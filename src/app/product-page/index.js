@@ -1,11 +1,10 @@
-import { memo, useCallback, useEffect } from 'react';
+import { memo, useCallback } from 'react';
 import PageLayout from '../../components/page-layout';
 import Head from '../../components/head';
 import BasketTool from '../../components/basket-tool';
+import Product from '../../components/product';
 import useStore from '../../store/use-store';
 import useSelector from '../../store/use-selector';
-import Controls from '../../components/controls';
-// import Pagination from '../../components/pagination';
 
 function ProductPage() {
   const store = useStore();
@@ -18,14 +17,9 @@ function ProductPage() {
     sum: state.basket.sum,
   }));
 
-  // useEffect(() => {
-  //   store.actions.catalog.load();
-  // }, []);
-  const itemId = select.item._id;
-
   const callbacks = {
     // Добавление в корзину
-    addToBasket: useCallback(itemId => store.actions.basket.addToBasket(itemId), [store]),
+    addToBasket: useCallback(_id => store.actions.basket.addToBasket(_id), [store]),
     // Открытие модалки корзины
     openModalBasket: useCallback(() => store.actions.modals.open('basket'), [store]),
   };
@@ -34,14 +28,12 @@ function ProductPage() {
     <PageLayout>
       <Head title={select.item.title} />
       <BasketTool onOpen={callbacks.openModalBasket} amount={select.amount} sum={select.sum} />
-      <div>
-        <p>{select.item.description}</p>
-        <p>Страна производитель: <span>{select.itemCountry.title}</span></p>
-        <p>Категория: <span>{select.itemCategory.title}</span></p>
-        <p>Год выпуска: <span>{select.item.edition}</span></p>
-        <p>{`Цена: ${select.item.price}`}</p>
-      </div>
-      <button onClick={callbacks.addToBasket}>Добавить</button>
+      <Product
+        item={select.item}
+        itemCountry={select.itemCountry.title}
+        itemCategory={select.itemCategory.title}
+        addToBasket={callbacks.addToBasket}
+      />
     </PageLayout>
   );
 }

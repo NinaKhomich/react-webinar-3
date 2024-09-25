@@ -38,7 +38,7 @@ function Main() {
   const renders = {
     item: useCallback(
       item => {
-        return <Item item={item} onAdd={callbacks.addToBasket} getProduct={callbacks.getProduct}/>;
+        return <Item item={item} onAdd={callbacks.addToBasket} getProduct={callbacks.getProduct} />;
       },
       [callbacks.addToBasket, callbacks.getProduct],
     ),
@@ -49,7 +49,11 @@ function Main() {
       <Head title="Магазин" />
       <BasketTool onOpen={callbacks.openModalBasket} amount={select.amount} sum={select.sum} />
       <List list={select.list} renderItem={renders.item} />
-      <Pagination totalItems={select.totalCount} itemsPerPage={select.pageLimit} onPageChange={callbacks.paginate}/>
+      <Pagination
+        totalItems={select.totalCount}
+        itemsPerPage={select.pageLimit}
+        onPageChange={callbacks.paginate}
+      />
     </PageLayout>
   );
 }

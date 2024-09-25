@@ -1,8 +1,9 @@
-import { memo, useCallback } from 'react';
+import { memo } from 'react';
 import propTypes from 'prop-types';
 import { numberFormat } from '../../utils';
 import { cn as bem } from '@bem-react/classname';
 import PropTypes from 'prop-types';
+import ItemLink from '../item-link';
 import './style.css';
 
 function ItemBasket(props) {
@@ -15,7 +16,9 @@ function ItemBasket(props) {
   return (
     <div className={cn()}>
       {/*<div className={cn('code')}>{props.item._id}</div>*/}
-      <div className={cn('title')}>{props.item.title}</div>
+      <div className={cn('title')}>
+        <ItemLink item={props.item} getProduct={props.getProduct} />
+      </div>
       <div className={cn('right')}>
         <div className={cn('cell')}>{numberFormat(props.item.price)} ₽</div>
         <div className={cn('cell')}>{numberFormat(props.item.amount || 0)} шт</div>
@@ -35,10 +38,12 @@ ItemBasket.propTypes = {
     amount: PropTypes.number,
   }).isRequired,
   onRemove: propTypes.func,
+  getProduct: PropTypes.func,
 };
 
 ItemBasket.defaultProps = {
   onRemove: () => {},
+  getProduct: () => {},
 };
 
 export default memo(ItemBasket);

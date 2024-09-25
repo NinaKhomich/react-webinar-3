@@ -20,14 +20,28 @@ function Basket() {
     removeFromBasket: useCallback(_id => store.actions.basket.removeFromBasket(_id), [store]),
     // Закрытие любой модалки
     closeModal: useCallback(() => store.actions.modals.close(), [store]),
+    // Получение товара из корзины по id и закрытие модалки
+    getProduct: useCallback(
+      _id => {
+        store.actions.product.getProductById(_id);
+        store.actions.modals.close();
+      },
+      [store],
+    ),
   };
 
   const renders = {
     itemBasket: useCallback(
       item => {
-        return <ItemBasket item={item} onRemove={callbacks.removeFromBasket} />;
+        return (
+          <ItemBasket
+            item={item}
+            onRemove={callbacks.removeFromBasket}
+            getProduct={callbacks.getProduct}
+          />
+        );
       },
-      [callbacks.removeFromBasket],
+      [callbacks.removeFromBasket, callbacks.getProduct],
     ),
   };
 

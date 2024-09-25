@@ -2,24 +2,24 @@ import { memo, useState } from 'react';
 import PropTypes from 'prop-types';
 import { cn as bem } from '@bem-react/classname';
 import { numberFormat } from '../../utils';
-import './style.css';
 import ItemLink from '../item-link';
+import './style.css';
 
-function Item(props) {
+function Item({ item, getProduct = () => {}, onAdd = () => {} }) {
   const cn = bem('Item');
 
   const callbacks = {
-    onAdd: e => props.onAdd(props.item._id),
+    onAdd: e => onAdd(item._id),
   };
 
   return (
     <div className={cn()}>
       {/*<div className={cn('code')}>{props.item._id}</div>*/}
       <div className={cn('title')}>
-        <ItemLink item={props.item} getProduct={props.getProduct}/>
+        <ItemLink item={item} getProduct={getProduct} />
       </div>
       <div className={cn('actions')}>
-        <div className={cn('price')}>{numberFormat(props.item.price)} ₽</div>
+        <div className={cn('price')}>{numberFormat(item.price)} ₽</div>
         <button onClick={callbacks.onAdd}>Добавить</button>
       </div>
     </div>
@@ -32,11 +32,8 @@ Item.propTypes = {
     title: PropTypes.string,
     price: PropTypes.number,
   }).isRequired,
+  getProduct: PropTypes.func,
   onAdd: PropTypes.func,
-};
-
-Item.defaultProps = {
-  onAdd: () => {},
 };
 
 export default memo(Item);

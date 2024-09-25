@@ -21,7 +21,7 @@ class Product extends StoreModule {
         itemCategory: json.result.category,
         itemCountry: json.result.madeIn,
       },
-      'Загружен товар byID из АПИ',
+      'Загрузка товар byID из АПИ',
     );
   }
 }
