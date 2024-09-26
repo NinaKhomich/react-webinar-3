@@ -12,17 +12,24 @@ function Main() {
   const store = useStore();
 
   useEffect(() => {
-    store.actions.catalog.load();
+    store.actions.catalog.load(select.pageLimit);
   }, []);
 
   const select = useSelector(state => ({
+    totalPages: state.catalog.totalPages,
     list: state.catalog.list,
-    pageLimit: state.catalog.pageLimit,
-    totalCount: state.catalog.totalCount,
+    currentPage: state.pagination.currentPage,
+    pageLimit: state.pagination.pageLimit,
+    pageList: state.pagination.pageItems,
+    pageNumberState: state.pagination.pageNumberState,
     amount: state.basket.amount,
     sum: state.basket.sum,
     item: state.product.item,
   }));
+
+  useEffect(() => {
+    store.actions.pagination.getPaginationState(select.totalPages, select.currentPage);
+  }, [select.totalPages, select.currentPage]);
 
   const callbacks = {
     // Добавление в корзину
@@ -30,7 +37,7 @@ function Main() {
     // Открытие модалки корзины
     openModalBasket: useCallback(() => store.actions.modals.open('basket'), [store]),
     //  Переход по страницам каталога
-    paginate: useCallback(number => store.actions.catalog.paginate(number), [store]),
+    paginate: useCallback(number => store.actions.pagination.paginate(number), [store]),
     // получение товара по id
     getProduct: useCallback(_id => store.actions.product.getProductById(_id), [store]),
   };
@@ -48,11 +55,14 @@ function Main() {
     <PageLayout>
       <Head title="Магазин" />
       <BasketTool onOpen={callbacks.openModalBasket} amount={select.amount} sum={select.sum} />
-      <List list={select.list} renderItem={renders.item} />
+      <List
+        list={select.currentPage !== 1 ? select.pageList : select.list}
+        renderItem={renders.item}
+      />
       <Pagination
-        totalItems={select.totalCount}
-        itemsPerPage={select.pageLimit}
+        currentPage={select.currentPage}
         onPageChange={callbacks.paginate}
+        pageNumberState={select.pageNumberState}
       />
     </PageLayout>
   );
