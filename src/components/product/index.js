@@ -4,7 +4,7 @@ import { cn as bem } from '@bem-react/classname';
 import PropTypes from 'prop-types';
 import './style.css';
 
-function Product({ item, itemCategory, itemCountry, addToBasket = () => {} }) {
+function Product({ item, itemCountry, itemCategory, addToBasket = () => {} }) {
   const cn = bem('Product');
   const callbacks = {
     addToBasket: e => addToBasket(item._id),

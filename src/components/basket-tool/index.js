@@ -9,22 +9,17 @@ function BasketTool({ sum = 0, amount = 0, onOpen = () => {} }) {
   const cn = bem('BasketTool');
   return (
     <div className={cn()}>
-      <Link className={cn('link')} to={'/'}>
-        Главная
-      </Link>
-      <div className={cn('container')}>
-        <span className={cn('label')}>В корзине:</span>
-        <span className={cn('total')}>
-          {amount
-            ? `${amount} ${plural(amount, {
-                one: 'товар',
-                few: 'товара',
-                many: 'товаров',
-              })} / ${numberFormat(sum)} ₽`
-            : `пусто`}
-        </span>
-        <button onClick={onOpen}>Перейти</button>
-      </div>
+      <span className={cn('label')}>В корзине:</span>
+      <span className={cn('total')}>
+        {amount
+          ? `${amount} ${plural(amount, {
+              one: 'товар',
+              few: 'товара',
+              many: 'товаров',
+            })} / ${numberFormat(sum)} ₽`
+          : `пусто`}
+      </span>
+      <button onClick={onOpen}>Перейти</button>
     </div>
   );
 }

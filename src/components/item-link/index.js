@@ -9,7 +9,7 @@ function ItemLink({ item, getProduct = () => {} }) {
   };
 
   return (
-    <Link className="ItemLink" to={'/productPage'} onClick={callbacks.getProduct}>
+    <Link className="ItemLink" to={`/productPage/${item._id}`} onClick={callbacks.getProduct}>
       {item.title}
     </Link>
   );

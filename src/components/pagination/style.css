@@ -1,6 +1,6 @@
 .Pagination-list {
   list-style: none;
-  margin: 22px 21px;
+  margin: 24px 22px;
   padding: 0;
   display: flex;
   justify-content: end;
@@ -19,8 +19,7 @@
 }
 
 .Pagination-page:not(.Pagination-page-dots):hover {
-  background-color: #535353;
-  color: #fff;
+  background-color: #E1E1E1;
 }
 
 .Pagination-page-active {
