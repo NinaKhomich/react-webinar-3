@@ -1,4 +1,4 @@
-import { memo, useCallback, useMemo } from 'react';
+import { memo, useCallback, useEffect, useMemo } from 'react';
 import useTranslate from '../../hooks/use-translate';
 import useStore from '../../hooks/use-store';
 import useSelector from '../../hooks/use-selector';
@@ -12,14 +12,43 @@ import SideLayout from '../../components/side-layout';
 function CatalogFilter() {
   const store = useStore();
 
+  useEffect(() => {
+    store.actions.catalog.getAllCategories();
+  }, []);
+
   const select = useSelector(state => ({
+    categoriesList: state.catalog.categories,
     sort: state.catalog.params.sort,
+    category: state.catalog.params.category,
     query: state.catalog.params.query,
   }));
+
+  let categoriesList = select.categoriesList.filter(category => (!category.parent));
+  let categoriesChildList = select.categoriesList.filter(category => category.parent);
+
+  while (categoriesChildList.length > 0) {
+    let sortedCategoriesList = [];
+    categoriesChildList.map(category => category.title = `- ${category.title}`);
+    categoriesList.forEach(element => {
+    sortedCategoriesList.push(element);
+      categoriesChildList.map(category => {
+        if (category.parent._id == element._id) {
+          sortedCategoriesList.push(category);
+        }
+      })
+      categoriesChildList = categoriesChildList.filter(category => element._id != category.parent._id);
+    })
+    categoriesList = sortedCategoriesList;
+  };
 
   const callbacks = {
     // Сортировка
     onSort: useCallback(sort => store.actions.catalog.setParams({ sort }), [store]),
+    // фильтр по категории
+    onFilterCategory: useCallback(
+      category => store.actions.catalog.setParams({ category }),
+      [store],
+    ),
     // Поиск
     onSearch: useCallback(query => store.actions.catalog.setParams({ query, page: 1 }), [store]),
     // Сброс
@@ -36,12 +65,26 @@ function CatalogFilter() {
       ],
       [],
     ),
+    categories: useMemo(
+      () => [
+        { value: '', title: 'Все' },
+        ...categoriesList.map(category => {
+          return { value: category._id, title: category.title };
+        }),
+      ],
+      [select.categoriesList],
+    ),
   };
 
   const { t } = useTranslate();
 
   return (
     <SideLayout padding="medium">
+      <Select
+        options={options.categories}
+        value={select.category}
+        onChange={callbacks.onFilterCategory}
+      />
       <Select options={options.sort} value={select.sort} onChange={callbacks.onSort} />
       <Input
         value={select.query}
