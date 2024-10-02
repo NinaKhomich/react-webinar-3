@@ -25,6 +25,8 @@ function Article() {
   }, [params.id]);
 
   const select = useSelector(state => ({
+    isLogged: state.user.isLogged,
+    userName: state.user.userData.profile?.name,
     article: state.article.data,
     waiting: state.article.waiting,
   }));
@@ -38,7 +40,7 @@ function Article() {
 
   return (
     <PageLayout>
-      <Head title={select.article.title} t={t}>
+      <Head title={select.article.title} t={t} isLogged={select.isLogged} userName={select.userName}>
         <LocaleSelect />
       </Head>
       <Navigation />

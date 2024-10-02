@@ -20,5 +20,8 @@
   "login.title": "Login",
   "login.name": "Username",
   "login.password": "Password",
-  "login.loginBtn": "Login"
+  "login.loginBtn": "Login",
+  "profile.title": "Profile",
+  "profile.name": "Username:",
+  "profile.phone": "Phone:"
 }

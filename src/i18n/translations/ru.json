@@ -22,5 +22,8 @@
   "login.title": "Вход",
   "login.name": "Логин",
   "login.password": "Пароль",
-  "login.loginBtn": "Войти"
+  "login.loginBtn": "Войти",
+  "profile.title": "Профиль",
+  "profile.name": "Имя:",
+  "profile.phone": "Телефон:"
 }

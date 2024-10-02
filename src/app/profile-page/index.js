@@ -1,44 +1,38 @@
-import { memo, useCallback, useEffect, useMemo, useState } from 'react';
+import { memo, useCallback, useEffect, useMemo } from 'react';
 import useStore from '../../hooks/use-store';
 import useSelector from '../../hooks/use-selector';
 import useTranslate from '../../hooks/use-translate';
 import PageLayout from '../../components/page-layout';
 import Head from '../../components/head';
 import Navigation from '../../containers/navigation';
-import LoginForm from '../../components/loginForm';
 import LocaleSelect from '../../containers/locale-select';
+import Profile from '../../components/profile';
 
-/**
- * Страница авторизации
- */
-function Login() {
+function ProfilePage() {
   const store = useStore();
   const { t } = useTranslate();
 
-
-
   const select = useSelector(state => ({
+    user: state.user.userData,
     isLogged: state.user.isLogged,
   }));
 
-  const callbacks = {
-    // Авторизация
-    onSign: useCallback((formValue) => {
-      store.actions.user.signIn(formValue);
-      console.log(formValue);
-    }, [store]),
-  };
+  console.log(select.user);
+
+
+  // const callbacks = {
+//  };
 
   return (
     <PageLayout>
-      <Head title={t('title')} t={t} isLogged={select.isLogged}>
+      <Head title={t('title')} t={t} isLogged={select.isLogged} userName={select.user.profile?.name}>
         <LocaleSelect />
       </Head>
       <Navigation />
-      <LoginForm t={t} onSign={callbacks.onSign}/>
+      <Profile user={select.user} t={t}/>
 
     </PageLayout>
   );
 }
 
-export default memo(Login);
+export default memo(ProfilePage);

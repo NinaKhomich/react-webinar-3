@@ -1,5 +1,6 @@
 import { memo } from 'react';
 import useStore from '../../hooks/use-store';
+import useSelector from '../../hooks/use-selector';
 import useTranslate from '../../hooks/use-translate';
 import useInit from '../../hooks/use-init';
 import Navigation from '../../containers/navigation';
@@ -15,6 +16,11 @@ import LocaleSelect from '../../containers/locale-select';
 function Main() {
   const store = useStore();
 
+  const select = useSelector(state => ({
+    isLogged: state.user.isLogged,
+    userName: state.user.userData.profile?.name,
+  }));
+
   useInit(
     () => {
       store.actions.catalog.initParams();
@@ -27,7 +33,7 @@ function Main() {
 
   return (
     <PageLayout>
-      <Head title={t('title')} t={t}>
+      <Head title={t('title')} t={t} isLogged={select.isLogged} userName={select.userName}>
         <LocaleSelect />
       </Head>
       <Navigation />
