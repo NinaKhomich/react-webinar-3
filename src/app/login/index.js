@@ -7,6 +7,7 @@ import useInit from '../../hooks/use-init';
 import PageLayout from '../../components/page-layout';
 import Head from '../../components/head';
 import Navigation from '../../containers/navigation';
+import LoginForm from '../../components/loginForm';
 import Spinner from '../../components/spinner';
 import ArticleCard from '../../components/article-card';
 import LocaleSelect from '../../containers/locale-select';
@@ -14,39 +15,36 @@ import LocaleSelect from '../../containers/locale-select';
 /**
  * Страница товара с первичной загрузкой товара по id из url адреса
  */
-function Article() {
+function Login() {
   const store = useStore();
-
-  // Параметры из пути /articles/:id
-  const params = useParams();
-
-  useInit(() => {
-    store.actions.article.load(params.id);
-  }, [params.id]);
-
-  const select = useSelector(state => ({
-    article: state.article.data,
-    waiting: state.article.waiting,
-  }));
-
   const { t } = useTranslate();
+  // const params = useParams();
 
-  const callbacks = {
-    // Добавление в корзину
-    addToBasket: useCallback(_id => store.actions.basket.addToBasket(_id), [store]),
-  };
+  // useInit(() => {
+  //     store.actions.catalog.initParams();
+  //   }, []);
+
+
+  // const select = useSelector(state => ({
+  // }));
+
+
+
+  // const callbacks = {
+  //   // Добавление в корзину
+  //   addToBasket: useCallback(_id => store.actions.basket.addToBasket(_id), [store]),
+  // };
 
   return (
     <PageLayout>
-      <Head title={select.article.title} t={t}>
+      <Head title={t('title')} t={t}>
         <LocaleSelect />
       </Head>
       <Navigation />
-      <Spinner active={select.waiting}>
-        <ArticleCard article={select.article} onAdd={callbacks.addToBasket} t={t} />
-      </Spinner>
+      <LoginForm t={t}/>
+
     </PageLayout>
   );
 }
 
-export default memo(Article);
+export default memo(Login);

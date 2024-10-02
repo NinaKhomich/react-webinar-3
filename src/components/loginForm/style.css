@@ -1,0 +1,26 @@
+.LoginForm {
+  padding: 42px 20px 20px;
+}
+
+
+.LoginForm-form, .LoginForm-input {
+  display: flex;
+  flex-direction: column;
+  max-width: 203px;
+}
+
+.LoginForm-title {
+  font-size: 24px;
+  font-weight: bold;
+  margin: 0;
+}
+
+.LoginForm-input {
+  margin-top: 20px;
+}
+
+.LoginForm-btn {
+  margin-top: 20px;
+  width: fit-content;
+  padding: 1px 8px;
+}
