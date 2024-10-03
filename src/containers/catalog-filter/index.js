@@ -5,6 +5,7 @@ import useSelector from '../../hooks/use-selector';
 import Select from '../../components/select';
 import Input from '../../components/input';
 import SideLayout from '../../components/side-layout';
+import { sortCategoriesList } from '../../utils';
 
 /**
  * Контейнер со всеми фильтрами каталога
@@ -23,30 +24,14 @@ function CatalogFilter() {
     query: state.catalog.params.query,
   }));
 
-  let categoriesList = select.categoriesList.filter(category => (!category.parent));
-  let categoriesChildList = select.categoriesList.filter(category => category.parent);
-
-  while (categoriesChildList.length > 0) {
-    let sortedCategoriesList = [];
-    categoriesChildList.map(category => category.title = `- ${category.title}`);
-    categoriesList.forEach(element => {
-    sortedCategoriesList.push(element);
-      categoriesChildList.map(category => {
-        if (category.parent._id == element._id) {
-          sortedCategoriesList.push(category);
-        }
-      })
-      categoriesChildList = categoriesChildList.filter(category => element._id != category.parent._id);
-    })
-    categoriesList = sortedCategoriesList;
-  };
+  const categoriesList = sortCategoriesList(select.categoriesList);
 
   const callbacks = {
     // Сортировка
     onSort: useCallback(sort => store.actions.catalog.setParams({ sort }), [store]),
     // фильтр по категории
     onFilterCategory: useCallback(
-      category => store.actions.catalog.setParams({ category }),
+      category => store.actions.catalog.setParams({ category, page: 1 }),
       [store],
     ),
     // Поиск

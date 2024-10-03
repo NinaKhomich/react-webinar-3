@@ -15,21 +15,26 @@ function Header() {
   const { pathname } = useLocation();
 
   const select = useSelector(state => ({
-    articleTitle:  state.article.data.title,
+    articleTitle: state.article.data.title,
     user: state.user.userData,
     isLogged: state.user.isLogged,
   }));
 
   const callbacks = {
-    logoutUser:  useCallback(() => store.actions.user.logout(), [store]),
+    logoutUser: useCallback(() => store.actions.user.logout(), [store]),
   };
 
   const { t } = useTranslate();
 
   return (
     <>
-      <HeadLogin  isLogged={select.isLogged} t={t} userName={select.user.profile?.name} onLogout={callbacks.logoutUser}/>
-      <Head title={ pathname.includes('/articles') ? select.articleTitle : t('title') } >
+      <HeadLogin
+        isLogged={select.isLogged}
+        t={t}
+        userName={select.user.profile?.name}
+        onLogout={callbacks.logoutUser}
+      />
+      <Head title={pathname.includes('/articles') ? select.articleTitle : t('title')}>
         <LocaleSelect />
       </Head>
     </>

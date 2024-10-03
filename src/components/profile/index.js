@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import './style.css';
 import { cn as bem } from '@bem-react/classname';
 
-function Profile({ user, t }) {
+function Profile({ user, t = text => text }) {
   const cn = bem('Profile');
 
   return (
@@ -32,10 +32,6 @@ Profile.propTypes = {
     phone: PropTypes.string,
   }),
   t: PropTypes.func,
-};
-
-Profile.defaultProps = {
-  t: text => text,
 };
 
 export default Profile;

@@ -16,21 +16,23 @@ function Login() {
 
   const select = useSelector(state => ({
     error: state.user.error,
-  }))
+  }));
 
   const callbacks = {
     // Авторизация
-    onSign: useCallback((formValue) => {
-      store.actions.user.signIn(formValue);
-    }, [store]),
+    onSign: useCallback(
+      formValue => {
+        store.actions.user.signIn(formValue);
+      },
+      [store],
+    ),
   };
 
   return (
     <PageLayout>
       <Header />
       <Navigation />
-      <LoginForm t={t} onSign={callbacks.onSign} errorMessage={select.error}/>
-
+      <LoginForm t={t} onSign={callbacks.onSign} errorMessage={select.error} />
     </PageLayout>
   );
 }

@@ -39,12 +39,12 @@ class UserState extends StoreModule {
 
     if (json.error) {
       const err = json.error;
-      console.log(err);
+
       this.setState({
-          userData: {},
-          error: err.message,
-          isLogged: false,
-        });
+        userData: {},
+        error: err.message,
+        isLogged: false,
+      });
     }
   }
 
@@ -75,7 +75,6 @@ class UserState extends StoreModule {
         error: e.message,
         isLogged: false,
       });
-      console.log(this.error);
     }
   }
 

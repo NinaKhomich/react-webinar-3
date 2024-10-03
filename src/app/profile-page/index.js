@@ -17,8 +17,7 @@ function ProfilePage() {
     <PageLayout>
       <Header />
       <Navigation />
-      <Profile user={select.user} t={t}/>
-
+      <Profile user={select.user} t={t} />
     </PageLayout>
   );
 }
