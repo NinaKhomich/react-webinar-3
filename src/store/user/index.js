@@ -8,7 +8,7 @@ class UserState extends StoreModule {
     return {
       isLogged: false,
       userData: {},
-      error: '',
+      error: null,
       token: '',
     };
   }
@@ -18,15 +18,15 @@ class UserState extends StoreModule {
    */
 
   async signIn({ login, password }) {
-    try {
-      const response = await fetch(`/api/v1/users/sign`, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({ login, password }),
-      });
-      const json = await response.json();
+    const response = await fetch(`/api/v1/users/sign`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ login, password }),
+    });
+    const json = await response.json();
+    if (json.result) {
       const userInfo = json.result;
       localStorage.setItem('X-Token', json.result.token);
 
@@ -35,11 +35,16 @@ class UserState extends StoreModule {
         userData: userInfo.user,
         isLogged: true,
       });
-    } catch (e) {
+    }
+
+    if (json.error) {
+      const err = json.error;
+      console.log(err);
       this.setState({
-        error: e.message,
-        isLogged: false,
-      });
+          userData: {},
+          error: err.message,
+          isLogged: false,
+        });
     }
   }
 
@@ -54,7 +59,6 @@ class UserState extends StoreModule {
         },
       });
       const json = await response.json();
-      console.log(json.result, 'checkToken');
 
       // Пользователь загружен успешно
       this.setState(
@@ -71,29 +75,23 @@ class UserState extends StoreModule {
         error: e.message,
         isLogged: false,
       });
-      console.log(this.isLogged);
+      console.log(this.error);
     }
   }
 
   async logout() {
-    try {
-      const response = await fetch(`/api/v1/users/sign`, {
-        method: 'DELETE',
-        headers: {
-          'Content-Type': 'application/json',
-          'X-Token': localStorage.getItem('X-Token'),
-        },
-      });
-      this.setState({
-        userData: {},
-        isLogged: false,
-      });
-    } catch (e) {
-      this.setState({
-        error: e.message,
-        isLogged: false,
-      });
-    }
+    const response = await fetch(`/api/v1/users/sign`, {
+      method: 'DELETE',
+      headers: {
+        'Content-Type': 'application/json',
+        'X-Token': localStorage.getItem('X-Token'),
+      },
+    });
+
+    this.setState({
+      userData: {},
+      isLogged: false,
+    });
     localStorage.removeItem('X-Token');
   }
 }

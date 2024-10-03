@@ -2,10 +2,8 @@ import { useState } from "react";
 import PropTypes from 'prop-types';
 import './style.css';
 import { cn as bem } from '@bem-react/classname';
-import { useNavigate } from "react-router-dom";
 
-function LoginForm({t, onSign}) {
-  const navigate = useNavigate();
+function LoginForm({t, onSign, errorMessage}) {
   const cn = bem('LoginForm');
   const [login, setLogin] = useState('');
   const [password, setPassword] = useState('');
@@ -23,7 +21,6 @@ function LoginForm({t, onSign}) {
   const handleSubmitSign = (e) => {
     e.preventDefault();
     onSign({login: login, password: password});
-    // navigate('/profile');
   }
 
   return (
@@ -38,7 +35,7 @@ function LoginForm({t, onSign}) {
           <span className={cn('name')}>{t('login.password')}</span>
           <input value={password} name={'password'} type={'password'} onChange={handleOnChangePassword}/>
         </label>
-        <span className={cn('error')}>error-Message</span>
+        {errorMessage && <span className={cn('error')}>{errorMessage}</span>}
         <button className={cn('btn')} type="submit" >
           {t('login.loginBtn')}
         </button>
@@ -48,11 +45,13 @@ function LoginForm({t, onSign}) {
 }
 
 LoginForm.propTypes = {
+  errorMessage: PropTypes.string,
   onSign: PropTypes.func,
   t: PropTypes.func,
 };
 
 LoginForm.defaultProps = {
+  errorMessage: '',
   onSign: () => {},
   t: text => text,
 };

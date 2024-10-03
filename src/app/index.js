@@ -22,13 +22,10 @@ function App() {
 
   useEffect(() => {
     const token = localStorage.getItem('X-Token');
-    console.log(token);
     if (token) {
       store.actions.user.checkToken(token);
     }
   }, []);
-
-  console.log(select.isLogged);
 
   return (
     <>

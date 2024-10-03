@@ -1,25 +1,17 @@
 import { memo, useCallback } from 'react';
 import useStore from '../../hooks/use-store';
-import useSelector from '../../hooks/use-selector';
-import useTranslate from '../../hooks/use-translate';
 import useInit from '../../hooks/use-init';
 import Navigation from '../../containers/navigation';
 import PageLayout from '../../components/page-layout';
-import Head from '../../components/head';
 import CatalogFilter from '../../containers/catalog-filter';
 import CatalogList from '../../containers/catalog-list';
-import LocaleSelect from '../../containers/locale-select';
+import Header from '../../containers/header';
 
 /**
  * Главная страница - первичная загрузка каталога
  */
 function Main() {
   const store = useStore();
-
-  const select = useSelector(state => ({
-    isLogged: state.user.isLogged,
-    userName: state.user.userData.profile?.name,
-  }));
 
   useInit(
     () => {
@@ -29,17 +21,9 @@ function Main() {
     true,
   );
 
-  const callbacks = {
-    logoutUser:  useCallback(() => store.actions.user.logout(), [store]),
-  };
-
-  const { t } = useTranslate();
-
   return (
     <PageLayout>
-      <Head title={t('title')} t={t} isLogged={select.isLogged} onLogout={select.isLogged && callbacks.logoutUser} userName={select.userName}>
-        <LocaleSelect />
-      </Head>
+      <Header />
       <Navigation />
       <CatalogFilter />
       <CatalogList />

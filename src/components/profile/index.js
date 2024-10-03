@@ -5,7 +5,6 @@ import { cn as bem } from '@bem-react/classname';
 
 function Profile({ user, t }) {
   const cn = bem('Profile');
-  console.log(user);
 
   return (
     <div className={cn()}>

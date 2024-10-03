@@ -1,31 +1,4 @@
 .Head {
-  display: flex;
-  flex-direction: column;
-}
-
-.Head-login-row {
-  display: flex;
-  justify-content: flex-end;
-  align-items: center;
-  padding: 10px 20px;
-}
-
-.Head-username {
-  font-size: 13px;
-  color: #0087E9;
-}
-
-.Head-button {
-  text-decoration: none;
-  color: #000;
-  font-size: 13px;
-  padding: 2px 8px;
-  margin-left: 20px;
-  border: 1px solid #767676;
-  background-color: #efefef;
-}
-
-.Head-wrap {
   height: 80px;
   background: #f5f5f5;
   display: flex;

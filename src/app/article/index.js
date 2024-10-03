@@ -5,11 +5,10 @@ import useSelector from '../../hooks/use-selector';
 import useTranslate from '../../hooks/use-translate';
 import useInit from '../../hooks/use-init';
 import PageLayout from '../../components/page-layout';
-import Head from '../../components/head';
 import Navigation from '../../containers/navigation';
 import Spinner from '../../components/spinner';
 import ArticleCard from '../../components/article-card';
-import LocaleSelect from '../../containers/locale-select';
+import Header from '../../containers/header';
 
 /**
  * Страница товара с первичной загрузкой товара по id из url адреса
@@ -25,8 +24,6 @@ function Article() {
   }, [params.id]);
 
   const select = useSelector(state => ({
-    isLogged: state.user.isLogged,
-    userName: state.user.userData.profile?.name,
     article: state.article.data,
     waiting: state.article.waiting,
   }));
@@ -36,14 +33,11 @@ function Article() {
   const callbacks = {
     // Добавление в корзину
     addToBasket: useCallback(_id => store.actions.basket.addToBasket(_id), [store]),
-    logoutUser:  useCallback(() => store.actions.user.logout(), [store]),
   };
 
   return (
     <PageLayout>
-      <Head title={select.article.title} t={t} isLogged={select.isLogged} userName={select.userName} onLogout={select.isLogged && callbacks.logoutUser}>
-        <LocaleSelect />
-      </Head>
+      <Header title={select.article.title} />
       <Navigation />
       <Spinner active={select.waiting}>
         <ArticleCard article={select.article} onAdd={callbacks.addToBasket} t={t} />
