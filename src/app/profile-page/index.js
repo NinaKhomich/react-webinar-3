@@ -20,12 +20,13 @@ function ProfilePage() {
   console.log(select.user);
 
 
-  // const callbacks = {
-//  };
+  const callbacks = {
+    logoutUser:  useCallback(() => store.actions.user.logout(), [store]),
+  };
 
   return (
     <PageLayout>
-      <Head title={t('title')} t={t} isLogged={select.isLogged} userName={select.user.profile?.name}>
+      <Head title={t('title')} t={t} isLogged={select.isLogged}  onLogout={select.isLogged && callbacks.logoutUser} userName={select.user.profile?.name}>
         <LocaleSelect />
       </Head>
       <Navigation />

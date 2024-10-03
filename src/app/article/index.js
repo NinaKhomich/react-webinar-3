@@ -36,11 +36,12 @@ function Article() {
   const callbacks = {
     // Добавление в корзину
     addToBasket: useCallback(_id => store.actions.basket.addToBasket(_id), [store]),
+    logoutUser:  useCallback(() => store.actions.user.logout(), [store]),
   };
 
   return (
     <PageLayout>
-      <Head title={select.article.title} t={t} isLogged={select.isLogged} userName={select.userName}>
+      <Head title={select.article.title} t={t} isLogged={select.isLogged} userName={select.userName} onLogout={select.isLogged && callbacks.logoutUser}>
         <LocaleSelect />
       </Head>
       <Navigation />

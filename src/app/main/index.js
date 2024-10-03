@@ -1,4 +1,4 @@
-import { memo } from 'react';
+import { memo, useCallback } from 'react';
 import useStore from '../../hooks/use-store';
 import useSelector from '../../hooks/use-selector';
 import useTranslate from '../../hooks/use-translate';
@@ -29,11 +29,15 @@ function Main() {
     true,
   );
 
+  const callbacks = {
+    logoutUser:  useCallback(() => store.actions.user.logout(), [store]),
+  };
+
   const { t } = useTranslate();
 
   return (
     <PageLayout>
-      <Head title={t('title')} t={t} isLogged={select.isLogged} userName={select.userName}>
+      <Head title={t('title')} t={t} isLogged={select.isLogged} onLogout={select.isLogged && callbacks.logoutUser} userName={select.userName}>
         <LocaleSelect />
       </Head>
       <Navigation />

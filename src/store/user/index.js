@@ -74,6 +74,28 @@ class UserState extends StoreModule {
       console.log(this.isLogged);
     }
   }
+
+  async logout() {
+    try {
+      const response = await fetch(`/api/v1/users/sign`, {
+        method: 'DELETE',
+        headers: {
+          'Content-Type': 'application/json',
+          'X-Token': localStorage.getItem('X-Token'),
+        },
+      });
+      this.setState({
+        userData: {},
+        isLogged: false,
+      });
+    } catch (e) {
+      this.setState({
+        error: e.message,
+        isLogged: false,
+      });
+    }
+    localStorage.removeItem('X-Token');
+  }
 }
 
 export default UserState;
