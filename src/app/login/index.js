@@ -6,6 +6,8 @@ import Navigation from '../../containers/navigation';
 import LoginForm from '../../components/loginForm';
 import Header from '../../containers/header';
 import useSelector from '../../hooks/use-selector';
+import { useLocation, useNavigate } from 'react-router-dom';
+import useInit from '../../hooks/use-init';
 
 /**
  * Страница авторизации
@@ -13,16 +15,32 @@ import useSelector from '../../hooks/use-selector';
 function Login() {
   const store = useStore();
   const { t } = useTranslate();
+  const { pathname } = useLocation();
+  const navigate = useNavigate();
 
   const select = useSelector(state => ({
-    error: state.user.error,
+    error: state.auth.error,
+    location: state.auth.location,
+    isLogged: state.auth.isLogged,
   }));
+
+  useInit(() => {
+    store.actions.auth.resetError();
+  }, [pathname]);
+
+  useInit(() => {
+    if (select.isLogged) {
+      select.location && select.location.pathname != '/login'
+        ? navigate(`${select.location.pathname}`)
+        : navigate('/');
+    }
+  }, [select.isLogged]);
 
   const callbacks = {
     // Авторизация
     onSign: useCallback(
       formValue => {
-        store.actions.user.signIn(formValue);
+        store.actions.auth.signIn(formValue);
       },
       [store],
     ),
@@ -32,7 +50,12 @@ function Login() {
     <PageLayout>
       <Header />
       <Navigation />
-      <LoginForm t={t} onSign={callbacks.onSign} errorMessage={select.error} />
+      <LoginForm
+        t={t}
+        onSign={callbacks.onSign}
+        errorMessage={select.error}
+        location={select.location}
+      />
     </PageLayout>
   );
 }

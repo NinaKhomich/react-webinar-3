@@ -72,6 +72,7 @@ function CatalogFilter() {
       />
       <Select options={options.sort} value={select.sort} onChange={callbacks.onSort} />
       <Input
+        theme={'big'}
         value={select.query}
         onChange={callbacks.onSearch}
         placeholder={'Поиск'}

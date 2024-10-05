@@ -1,15 +1,13 @@
 import StoreModule from '../module';
 
 /**
- * Детальная информация о товаре для страницы товара
+ * Детальная информация о пользователе для страницы профиля
  */
 class UserState extends StoreModule {
   initState() {
     return {
-      isLogged: false,
       userData: {},
-      error: null,
-      token: '',
+      waiting: false,
     };
   }
 
@@ -17,38 +15,13 @@ class UserState extends StoreModule {
    * @return {Promise<void>}
    */
 
-  async signIn({ login, password }) {
-    const response = await fetch(`/api/v1/users/sign`, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({ login, password }),
+  async loadUserData(token) {
+
+    this.setState({
+      userData: {},
+      waiting: true,
     });
-    const json = await response.json();
-    if (json.result) {
-      const userInfo = json.result;
-      localStorage.setItem('X-Token', json.result.token);
 
-      // Пользователь загружен успешно
-      this.setState({
-        userData: userInfo.user,
-        isLogged: true,
-      });
-    }
-
-    if (json.error) {
-      const err = json.error;
-
-      this.setState({
-        userData: {},
-        error: err.message,
-        isLogged: false,
-      });
-    }
-  }
-
-  async checkToken(token) {
     try {
       const response = await fetch(`/api/v1/users/self?fields=*`, {
         method: 'GET',
@@ -64,7 +37,7 @@ class UserState extends StoreModule {
       this.setState(
         {
           userData: json.result,
-          isLogged: true,
+          waiting: false,
         },
         'Загружен пользователь из АПИ',
       );
@@ -72,26 +45,10 @@ class UserState extends StoreModule {
       // Ошибка при загрузке
       // @todo В стейт можно положить информацию об ошибке
       this.setState({
-        error: e.message,
-        isLogged: false,
+        userData: {},
+        waiting: false,
       });
     }
-  }
-
-  async logout() {
-    const response = await fetch(`/api/v1/users/sign`, {
-      method: 'DELETE',
-      headers: {
-        'Content-Type': 'application/json',
-        'X-Token': localStorage.getItem('X-Token'),
-      },
-    });
-
-    this.setState({
-      userData: {},
-      isLogged: false,
-    });
-    localStorage.removeItem('X-Token');
   }
 }
 

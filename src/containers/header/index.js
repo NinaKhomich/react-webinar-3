@@ -8,7 +8,7 @@ import LocaleSelect from '../locale-select';
 import { useLocation } from 'react-router-dom';
 
 /**
- * Контейнер списка товаров с пагинацией
+ * Контейнер шапки сайта
  */
 function Header() {
   const store = useStore();
@@ -16,12 +16,14 @@ function Header() {
 
   const select = useSelector(state => ({
     articleTitle: state.article.data.title,
-    user: state.user.userData,
-    isLogged: state.user.isLogged,
+    currentUser: state.auth.currentUserData,
+    isLogged: state.auth.isLogged,
   }));
 
   const callbacks = {
-    logoutUser: useCallback(() => store.actions.user.logout(), [store]),
+    logoutUser: useCallback(() => store.actions.auth.logout(), [store]),
+    removeLocation: useCallback(() => store.actions.auth.removeLocation(), [store]),
+    setLocation: useCallback(location => store.actions.auth.setLocation(location), [store]),
   };
 
   const { t } = useTranslate();
@@ -31,8 +33,10 @@ function Header() {
       <HeadLogin
         isLogged={select.isLogged}
         t={t}
-        userName={select.user.profile?.name}
+        userName={select.currentUser.profile?.name}
         onLogout={callbacks.logoutUser}
+        removeLocation={callbacks.removeLocation}
+        setLocation={callbacks.setLocation}
       />
       <Head title={pathname.includes('/articles') ? select.articleTitle : t('title')}>
         <LocaleSelect />

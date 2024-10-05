@@ -7,7 +7,7 @@ import Basket from './basket';
 import Article from './article';
 import Login from './login';
 import ProfilePage from './profile-page';
-import ProtectedRoute from '../components/protected-route';
+import useInit from '../hooks/use-init';
 
 /**
  * Приложение
@@ -17,13 +17,13 @@ function App() {
   const store = useStore();
   const select = useSelector(state => ({
     activeModal: state.modals.name,
-    isLogged: state.user.isLogged,
+    isLogged: state.auth.isLogged,
   }));
 
-  useEffect(() => {
+  useInit(() => {
     const token = localStorage.getItem('X-Token');
     if (token) {
-      store.actions.user.checkToken(token);
+      store.actions.auth.checkToken(token);
     }
   }, []);
 
@@ -32,22 +32,8 @@ function App() {
       <Routes>
         <Route path={''} element={<Main />} />
         <Route path={'/articles/:id'} element={<Article />} />
-        <Route
-          path={'/login'}
-          element={
-            <ProtectedRoute isLoggedIn={!select.isLogged} link={'/profile'}>
-              <Login />
-            </ProtectedRoute>
-          }
-        />
-        <Route
-          path={'/profile'}
-          element={
-            <ProtectedRoute isLoggedIn={select.isLogged} link={'/login'}>
-              <ProfilePage />
-            </ProtectedRoute>
-          }
-        />
+        <Route path={'/login'} element={<Login />} />
+        <Route path={'/profile'} element={<ProfilePage />} />
       </Routes>
 
       {select.activeModal === 'basket' && <Basket />}
