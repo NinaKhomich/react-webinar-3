@@ -9,7 +9,6 @@ function HeadLogin({
   t = text => text,
   onLogout = () => {},
   setLocation = () => {},
-  removeLocation = () => {},
 }) {
   const location = useLocation();
   const navigate = useNavigate();
@@ -17,7 +16,6 @@ function HeadLogin({
     if (isLogged) {
       e.preventDefault();
       onLogout();
-      removeLocation();
       location.pathname == '/profile' && navigate('/');
     } else setLocation(location);
   };
@@ -42,7 +40,6 @@ HeadLogin.propTypes = {
   onLogout: PropTypes.func,
   t: PropTypes.func,
   setLocation: PropTypes.func,
-  removeLocation: PropTypes.func,
 };
 
 export default memo(HeadLogin);

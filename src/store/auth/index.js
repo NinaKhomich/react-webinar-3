@@ -25,7 +25,6 @@ class AuthState extends StoreModule {
     if (json.result) {
       const userInfo = json.result;
       localStorage.setItem('X-Token', json.result.token);
-      console.log(this.location);
 
       // Пользователь загружен успешно
       this.setState({
@@ -37,7 +36,6 @@ class AuthState extends StoreModule {
 
     if (json.error) {
       const err = json.error;
-      err.data.issues.map(item => console.log(item.message));
       this.setState({
         ...this.getState(),
         currentUserData: {},
@@ -103,14 +101,8 @@ class AuthState extends StoreModule {
   setLocation(location) {
     this.setState({
       ...this.getState(),
+      error: null,
       location: location,
-    });
-  }
-
-  removeLocation() {
-    this.setState({
-      ...this.getState(),
-      location: null,
     });
   }
 }

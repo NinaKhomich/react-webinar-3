@@ -22,7 +22,6 @@ function Header() {
 
   const callbacks = {
     logoutUser: useCallback(() => store.actions.auth.logout(), [store]),
-    removeLocation: useCallback(() => store.actions.auth.removeLocation(), [store]),
     setLocation: useCallback(location => store.actions.auth.setLocation(location), [store]),
   };
 
@@ -35,7 +34,6 @@ function Header() {
         t={t}
         userName={select.currentUser.profile?.name}
         onLogout={callbacks.logoutUser}
-        removeLocation={callbacks.removeLocation}
         setLocation={callbacks.setLocation}
       />
       <Head title={pathname.includes('/articles') ? select.articleTitle : t('title')}>
