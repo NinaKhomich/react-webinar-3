@@ -17,7 +17,7 @@ function HeadLogin({
       e.preventDefault();
       onLogout();
       location.pathname == '/profile' && navigate('/');
-    } else setLocation(location);
+    } else setLocation(window.location.pathname + window.location.search);
   };
 
   return (
