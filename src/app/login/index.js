@@ -31,7 +31,7 @@ function Login() {
   useInit(() => {
     if (select.isLogged) {
       select.location
-        ? navigate(-1)
+        ? navigate(select.location)
         : navigate('/');
     }
   }, [select.isLogged]);

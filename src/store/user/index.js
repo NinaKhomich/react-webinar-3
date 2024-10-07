@@ -15,40 +15,42 @@ class UserState extends StoreModule {
    * @return {Promise<void>}
    */
 
-  async loadUserData(token) {
-
+  async loadUserData(goToLogin) {
     this.setState({
       userData: {},
       waiting: true,
     });
 
-    try {
-      const response = await fetch(`/api/v1/users/self?fields=*`, {
-        method: 'GET',
-        headers: {
-          Accept: 'application/json',
-          'Content-Type': 'application/json',
-          'X-Token': token,
-        },
-      });
-      const json = await response.json();
+    const token = localStorage.getItem('X-Token');
+    if (token) {
+      try {
+        const response = await fetch(`/api/v1/users/self?fields=*`, {
+          method: 'GET',
+          headers: {
+            Accept: 'application/json',
+            'Content-Type': 'application/json',
+            'X-Token': token,
+          },
+        });
+        const json = await response.json();
 
-      // Пользователь загружен успешно
-      this.setState(
-        {
-          userData: json.result,
+        // Пользователь загружен успешно
+        this.setState(
+          {
+            userData: json.result,
+            waiting: false,
+          },
+          'Загружен пользователь из АПИ',
+        );
+      } catch (e) {
+        // Ошибка при загрузке
+        // @todo В стейт можно положить информацию об ошибке
+        this.setState({
+          userData: {},
           waiting: false,
-        },
-        'Загружен пользователь из АПИ',
-      );
-    } catch (e) {
-      // Ошибка при загрузке
-      // @todo В стейт можно положить информацию об ошибке
-      this.setState({
-        userData: {},
-        waiting: false,
-      });
-    }
+        });
+      }
+    } else goToLogin();
   }
 }
 

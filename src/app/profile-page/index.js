@@ -19,9 +19,10 @@ function ProfilePage() {
     waiting: state.user.waiting,
   }));
 
-  const token = localStorage.getItem('X-Token');
+  const goToLogin = () => navigate('/login');
+
   useEffect(() => {
-    token ? store.actions.user.loadUserData(token) : navigate('/login');
+    store.actions.user.loadUserData(goToLogin);
   }, []);
 
   return (

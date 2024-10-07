@@ -14,11 +14,11 @@ function CatalogFilter() {
   const store = useStore();
 
   useEffect(() => {
-    store.actions.catalog.getAllCategories();
+    store.actions.categories.getAllCategories();
   }, []);
 
   const select = useSelector(state => ({
-    categoriesList: state.catalog.categories,
+    categoriesList: state.categories.categories,
     sort: state.catalog.params.sort,
     category: state.catalog.params.category,
     query: state.catalog.params.query,

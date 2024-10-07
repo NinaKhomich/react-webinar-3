@@ -45,32 +45,35 @@ class AuthState extends StoreModule {
     }
   }
 
-  async checkToken(token) {
-    try {
-      const response = await fetch(`/api/v1/users/self?fields=*`, {
-        method: 'GET',
-        headers: {
-          Accept: 'application/json',
-          'Content-Type': 'application/json',
-          'X-Token': token,
-        },
-      });
-      const json = await response.json();
+  async checkToken() {
+    const token = localStorage.getItem('X-Token');
+    if (token) {
+      try {
+        const response = await fetch(`/api/v1/users/self?fields=*`, {
+          method: 'GET',
+          headers: {
+            Accept: 'application/json',
+            'Content-Type': 'application/json',
+            'X-Token': token,
+          },
+        });
+        const json = await response.json();
 
-      // Пользователь загружен успешно
-      this.setState(
-        {
+        // Пользователь загружен успешно
+        this.setState(
+          {
+            ...this.getState(),
+            currentUserData: json.result,
+            isLogged: true,
+          },
+          'Загружен пользователь из АПИ',
+        );
+      } catch (e) {
+        this.setState({
           ...this.getState(),
-          currentUserData: json.result,
-          isLogged: true,
-        },
-        'Загружен пользователь из АПИ',
-      );
-    } catch (e) {
-      this.setState({
-        ...this.getState(),
-        isLogged: false,
-      });
+          isLogged: false,
+        });
+      }
     }
   }
 

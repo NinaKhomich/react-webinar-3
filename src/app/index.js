@@ -17,14 +17,10 @@ function App() {
   const store = useStore();
   const select = useSelector(state => ({
     activeModal: state.modals.name,
-    isLogged: state.auth.isLogged,
   }));
 
   useInit(() => {
-    const token = localStorage.getItem('X-Token');
-    if (token) {
-      store.actions.auth.checkToken(token);
-    }
+    store.actions.auth.checkToken();
   }, []);
 
   return (
