@@ -13,6 +13,8 @@ import TopHead from '../../containers/top-head';
 import { useDispatch, useSelector } from 'react-redux';
 import shallowequal from 'shallowequal';
 import articleActions from '../../store-redux/article/actions';
+import commentsActions from '../../store-redux/comments/actions';
+import ArticleComments from '../../containers/article-comments';
 
 function Article() {
   const store = useStore();
@@ -25,6 +27,7 @@ function Article() {
   useInit(() => {
     //store.actions.article.load(params.id);
     dispatch(articleActions.load(params.id));
+    dispatch(commentsActions.load(params.id));
   }, [params.id]);
 
   const select = useSelector(
@@ -51,6 +54,7 @@ function Article() {
       <Navigation />
       <Spinner active={select.waiting}>
         <ArticleCard article={select.article} onAdd={callbacks.addToBasket} t={t} />
+        <ArticleComments />
       </Spinner>
     </PageLayout>
   );

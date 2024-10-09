@@ -20,5 +20,16 @@
   "auth.password": "Password",
   "auth.signIn": "Sign in",
   "session.signIn": "Sign In",
-  "session.signOut": "Sign Out"
+  "session.signOut": "Sign Out",
+  "comment.replyBtn": "Reply",
+  "comment.sendBtn": "Send",
+  "comment.comments": "Comments",
+  "commentForm.title": "New comment",
+  "commentForm.text": "Text",
+  "commentFormReply.title": "New reply",
+  "commentFormReply.text": "My reply for ",
+  "comment.cancelBtn": "Cancel",
+  "commentForm.link": "Enter",
+  "commentFormReply.textRequire": "to be able to respond",
+  "commentForm.textRequire": "to be able to comment"
 }
