@@ -6,7 +6,6 @@ import { Link } from 'react-router-dom';
 
 function CommentForm(props) {
   const {
-    author,
     parent,
     commentText,
     label,
@@ -22,8 +21,9 @@ function CommentForm(props) {
 
   const handleOnSubmit = event => {
     event.preventDefault();
-    onSubmit(value, parent, author);
-  }
+    onSubmit(value, parent);
+    setValue('');
+  };
 
   const handleOnChange = event => {
     setValue(event.target.value);
@@ -34,7 +34,13 @@ function CommentForm(props) {
       {exists ? (
         <form onSubmit={handleOnSubmit} className={cn()}>
           <label className={cn('title')}>{label}</label>
-          <textarea onChange={handleOnChange} className={cn('textarea')} name="text" placeholder={commentText} />
+          <textarea
+            value={value ?? ''}
+            onChange={handleOnChange}
+            className={cn('textarea')}
+            name="text"
+            placeholder={commentText}
+          />
           <div className={cn('buttons')}>
             <button className={cn('btn')}>{t('comment.sendBtn')}</button>
             {children}
@@ -62,9 +68,9 @@ CommentForm.propTypes = {
   requiredText: PropTypes.string,
   children: PropTypes.node,
   exists: PropTypes.bool,
-  isOpen: PropTypes.bool,
   onSubmit: PropTypes.func,
   t: PropTypes.func,
+  parent: PropTypes.object,
 };
 
 export default memo(CommentForm);

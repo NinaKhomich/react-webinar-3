@@ -21,7 +21,7 @@ function reducer(state = initialState, action) {
     }
 
     case 'comments/add-error': {
-      return { ...state, error: 'Can`t add new comment' };
+      return { ...state, error: 'Error' };
     }
 
     default:

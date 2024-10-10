@@ -10,10 +10,12 @@ import formActions from '../../store-redux/form/actions.js';
 import Controls from '../../components/controls';
 import shallowequal from 'shallowequal';
 import useSelector from '../../hooks/use-selector';
+import { useParams } from 'react-router-dom';
 
 function ArticleComments() {
   const { t } = useTranslate();
   const dispatch = useDispatch();
+  const params = useParams();
 
   const selectRedux = useSelectorRedux(
     state => ({
@@ -24,7 +26,7 @@ function ArticleComments() {
   );
 
   const select = useSelector(state => ({
-    user: state.session.user,
+    currentUser: state.session.user,
     exists: state.session.exists,
   }));
 
@@ -37,7 +39,11 @@ function ArticleComments() {
     }),
     addNewComment: useCallback((value, parent, author) => {
       dispatch(commentsActions.addNewComment(value, parent, author));
-    })
+    }),
+  };
+
+  const addComment = (value, parent) => {
+    callbacks.addNewComment(value, parent, select.currentUser);
   };
 
   const commentsTree = listToTree(selectRedux.comments);
@@ -54,9 +60,8 @@ function ArticleComments() {
         {selectRedux.selectedCommentId === item._id ? (
           <CommentForm
             t={t}
-            onSubmit={callbacks.addNewComment}
-            author={select.user}
-            parent={item.parent}
+            onSubmit={addComment}
+            parent={{ _id: item._id, _type: 'comment' }}
             exists={select.exists}
             commentText={`${t('commentFormReply.text')} ${item.author.profile.name}`}
             label={t('commentFormReply.title')}
@@ -77,11 +82,11 @@ function ArticleComments() {
   return (
     <Comments t={t} count={selectRedux.comments.length}>
       {renderCommentsList(comments)}
-
-      {!selectRedux.selectedCommentId && (
+      {(comments.length == 0 || (comments.length > 0 && !selectRedux.selectedCommentId)) && (
         <CommentForm
           t={t}
-          onSubmit={callbacks.addNewComment}
+          parent={{ _id: params.id, _type: 'article' }}
+          onSubmit={addComment}
           exists={select.exists}
           commentText={t('commentForm.text')}
           label={t('commentForm.title')}
@@ -92,7 +97,5 @@ function ArticleComments() {
     </Comments>
   );
 }
-
-ArticleComments.propTypes = {};
 
 export default memo(ArticleComments);

@@ -33,14 +33,15 @@ export default {
           method: 'POST',
           body: JSON.stringify({
             text: comment,
-            parent: { _id: parent._id, _type: parent._type ? parent._type : 'comment' },
+            parent: parent,
           }),
         });
-        console.log('111');
+        let newComment = res.data.result;
+        newComment = { ...newComment, author: { profile: { name: author.profile.name } } };
         // Комментарий создан успешно
         dispatch({
           type: 'comments/add-success',
-          payload: { list: response.data.result },
+          payload: { list: [...getState().comments.list, newComment] },
         });
       } catch (e) {
         //Ошибка загрузки
