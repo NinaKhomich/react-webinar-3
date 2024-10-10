@@ -11,6 +11,7 @@ export default function changeFormatDate(date, locale = 'ru-RU') {
     hour: "numeric",
     minute: "numeric",
   };
+  const dateStr = date.slice(0, 23)
   const dateTimeFormat = new Intl.DateTimeFormat(locale, options);
-  return dateTimeFormat.format(new Date(date.slice(0, 23))).split(' г.').join('')
+  return dateTimeFormat.format(new Date(dateStr)).split(' г.').join('')
 }

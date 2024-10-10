@@ -2,24 +2,18 @@ import { memo, useState } from 'react';
 import PropTypes from 'prop-types';
 import { cn as bem } from '@bem-react/classname';
 import './style.css';
-import dateFormat from '../../utils/date-format';
+import changeFormatDate from '../../utils/change-format-date';
 
 function ItemComment(props) {
   const { comment, t = text => text, onOpenReply = () => {} } = props;
   const cn = bem('ItemComment');
 
-  // const createDate = date => {
-  //   dateFormat(date);
-  // };
-
   const handleOpenReply = e => {
     e.preventDefault;
     onOpenReply(comment._id);
   };
-  // // new Date(jsonDate).toUTCString()
-  // const newDate = new Date('2024-10-08T19:33:32.065Z');
-  // // year: 'numeric', month: 'long', day: 'numeric'
-  // console.log(newDate.getHours());
+  let date = changeFormatDate(comment.date);
+  console.log(date);
   return (
     <div className={cn()}>
       <div className={cn('wrap')}>

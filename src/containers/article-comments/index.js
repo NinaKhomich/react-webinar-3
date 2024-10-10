@@ -34,7 +34,7 @@ function ArticleComments() {
     closeCommentReply: useCallback(() => {
       dispatch(comments.close());
     }),
-    addNewComment
+    // addNewComment
   };
 
   const commentsList = treeToList(listToTree(selectRedux.comments), (item, level) => ({
