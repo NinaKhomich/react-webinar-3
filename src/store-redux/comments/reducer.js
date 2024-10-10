@@ -1,7 +1,6 @@
 // Начальное состояние
 export const initialState = {
   list: [],
-  isOpenNewCommentForm: false,
   waiting: false, // признак ожидания загрузки
 };
 
@@ -9,7 +8,7 @@ export const initialState = {
 function reducer(state = initialState, action) {
   switch (action.type) {
     case 'comments/load-start':
-      return { ...state, list: [], waiting: true, isOpenNewCommentForm: true };
+      return { ...state, list: [], waiting: true };
 
     case 'comments/load-success':
       return { ...state, list: action.payload.list, waiting: false };
@@ -17,11 +16,13 @@ function reducer(state = initialState, action) {
     case 'comments/load-error':
       return { ...state, list: [], waiting: false };
 
-    case 'comment-reply/open':
-      return { ...state, list: action.payload.list, isOpenNewCommentForm: false };
+    case 'comments/add-success': {
+      return { ...state, list: action.payload.list };
+    }
 
-    case 'comment-reply/close':
-      return { ...state, list: action.payload.list, isOpenNewCommentForm: true };
+    case 'comments/add-error': {
+      return { ...state, error: 'Can`t add new comment' };
+    }
 
     default:
       // Нет изменений

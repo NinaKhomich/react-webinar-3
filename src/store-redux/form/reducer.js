@@ -1,17 +1,16 @@
 // Начальное состояние
-export const initialState = {
-  list: [],
-  comment: {},
+const initialState = {
+  selectedCommentId: null,
 };
 
 // Обработчик действий
 function reducer(state = initialState, action) {
   switch (action.type) {
-    case 'new-comment/create':
-      return { ...state, list: [], waiting: true, isOpenNewCommentForm: true };
-
+    case 'form/open':
+      return { ...state, selectedCommentId: action.payload.id };
+    case 'form/close':
+      return { ...state, selectedCommentId: null };
     default:
-      // Нет изменений
       return state;
   }
 }

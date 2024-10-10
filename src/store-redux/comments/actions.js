@@ -16,7 +16,7 @@ export default {
         // Комментарии загружены успешно
         dispatch({
           type: 'comments/load-success',
-          payload: { list: res.data.result.items, isOpenNewCommentForm: true },
+          payload: { list: res.data.result.items },
         });
       } catch (e) {
         //Ошибка загрузки
@@ -25,25 +25,27 @@ export default {
     };
   },
 
-  open: selectId => {
-    return (dispatch, getState, services) => {
-      let list = [];
-      getState().comments.list.map(item => {
-        item.replyOpen = item._id === selectId ? true : false;
-        list = [...list, item];
-        dispatch({ type: 'comment-reply/open', payload: { list: list } });
-      });
-    };
-  },
-
-  close: () => {
-    return (dispatch, getState, services) => {
-      const list = getState().comments.list;
-      list.map(item => {
-        item.replyOpen = false;
-        return item;
-      });
-      dispatch({ type: 'comment-reply/close', payload: { list: list } });
+  addNewComment: (comment, parent, author) => {
+    return async (dispatch, getState, services) => {
+      try {
+        const res = await services.api.request({
+          url: `/api/v1/comments`,
+          method: 'POST',
+          body: JSON.stringify({
+            text: comment,
+            parent: { _id: parent._id, _type: parent._type ? parent._type : 'comment' },
+          }),
+        });
+        console.log('111');
+        // Комментарий создан успешно
+        dispatch({
+          type: 'comments/add-success',
+          payload: { list: response.data.result },
+        });
+      } catch (e) {
+        //Ошибка загрузки
+        dispatch({ type: 'comments/add-error' });
+      }
     };
   },
 };

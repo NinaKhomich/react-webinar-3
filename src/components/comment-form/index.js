@@ -6,6 +6,7 @@ import { Link } from 'react-router-dom';
 
 function CommentForm(props) {
   const {
+    author,
     parent,
     commentText,
     label,
@@ -13,7 +14,6 @@ function CommentForm(props) {
     requiredText,
     children,
     exists = false,
-    isOpen = false,
     onSubmit = () => {},
     t = text => text,
   } = props;
@@ -22,7 +22,7 @@ function CommentForm(props) {
 
   const handleOnSubmit = event => {
     event.preventDefault();
-    onSubmit(value, parent);
+    onSubmit(value, parent, author);
   }
 
   const handleOnChange = event => {
@@ -32,7 +32,7 @@ function CommentForm(props) {
   return (
     <div>
       {exists ? (
-        <form onSubmit={handleOnSubmit} className={`${cn()} ${isOpen ? cn({ theme: 'open' }) : ''}`}>
+        <form onSubmit={handleOnSubmit} className={cn()}>
           <label className={cn('title')}>{label}</label>
           <textarea onChange={handleOnChange} className={cn('textarea')} name="text" placeholder={commentText} />
           <div className={cn('buttons')}>
@@ -41,7 +41,7 @@ function CommentForm(props) {
           </div>
         </form>
       ) : (
-        <div className={`${isOpen ? cn('message', { theme: 'open' }) : cn('message')}`}>
+        <div className={cn('message')}>
           <p className={cn('text')}>
             <Link className={cn('link')} to="/login">
               {commentLinkLogin}

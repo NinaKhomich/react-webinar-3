@@ -2,10 +2,6 @@
 .CommentForm {
   flex-direction: column;
   padding: 15px 0;
-  display: none;
-}
-
-.CommentForm_theme_open {
   display: flex;
 }
 
@@ -41,10 +37,6 @@
 }
 
 .CommentForm-message {
-  display: none;
-}
-
-.CommentForm-message_theme_open {
   display: flex;
 }
 
