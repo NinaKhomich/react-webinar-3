@@ -37,38 +37,78 @@ function ArticleComments() {
     // addNewComment
   };
 
-  const commentsList = treeToList(listToTree(selectRedux.comments), (item, level) => ({
-    ...item,
-    depth: level,
-  }));
-  commentsList.shift();
+  const commentsList = listToTree(selectRedux.comments);
+  console.log(commentsList);
+
+  const renders = {
+    item: useCallback(
+      item => (
+        <ItemComment t={t} comment={item} onOpenReply={callbacks.openCommentReply} />
+      ),
+      [callbacks.openCommentReply, t],
+    ),
+  };
+
+  const recurse = (list) => {
+    list.map(item => {
+      renders.item(item);
+      item.children.length != 0 ? recurse(item.children) : null
+    })
+  }
 
   return (
     <Comments t={t} count={selectRedux.comments.length}>
-      {commentsList.map((comment, index) => (
+      {recurse(commentsList)}
+
+      {/* {commentsList.map((comment, index) => (
         <div key={index} style={{ marginLeft: `${(comment.depth - 1) * 30}px` }}>
           <ItemComment t={t} comment={comment} onOpenReply={callbacks.openCommentReply} />
-          {
+
+            {/* { comment.children.length != 0
+              ? comment.children.map((item, index) => (
+                <div key={index} style={{ marginLeft: `${(comment.depth) * 30}px` }}>
+                  <ItemComment t={t} comment={item} onOpenReply={callbacks.openCommentReply} />
+                  <CommentForm
+                    t={t}
+                    onSubmit={callbacks.addNewComment}
+                    parent={item.parent}
+                    exists={select.exists}
+                    commentText={`${t('commentFormReply.text')} ${item.author.profile.name}`}
+                    label={t('commentFormReply.title')}
+                    isOpen={item.replyOpen}
+                    commentLinkLogin={t('commentForm.link')}
+                    requiredText={t('commentFormReply.textRequire')}
+                  >
+                    <Controls
+                      onClick={callbacks.closeCommentReply}
+                      btnText={t('comment.cancelBtn')}
+                      theme={select.exists ? '' : '_theme_unexists'}
+                    />
+                  </CommentForm>
+                </div>))
+              : null
+              } */}
+          {/* <div  style={{ marginLeft: comment.children.length != 0 && `${(comment.depth) * 30}px` }}>
             <CommentForm
-              t={t}
-              onSubmit={callbacks.addNewComment}
-              parent={comment.parent}
-              exists={select.exists}
-              commentText={`${t('commentFormReply.text')} ${comment.author.profile.name}`}
-              label={t('commentFormReply.title')}
-              isOpen={comment.replyOpen}
-              commentLinkLogin={t('commentForm.link')}
-              requiredText={t('commentFormReply.textRequire')}
-            >
-              <Controls
-                onClick={callbacks.closeCommentReply}
-                btnText={t('comment.cancelBtn')}
-                theme={select.exists ? '' : '_theme_unexists'}
-              />
+                    t={t}
+                    onSubmit={callbacks.addNewComment}
+                    parent={comment.parent}
+                    exists={select.exists}
+                    commentText={`${t('commentFormReply.text')} ${comment.author.profile.name}`}
+                    label={t('commentFormReply.title')}
+                    isOpen={comment.replyOpen}
+                    commentLinkLogin={t('commentForm.link')}
+                    requiredText={t('commentFormReply.textRequire')}
+                  >
+                    <Controls
+                      onClick={callbacks.closeCommentReply}
+                      btnText={t('comment.cancelBtn')}
+                      theme={select.exists ? '' : '_theme_unexists'}
+                    />
             </CommentForm>
-          }
+          </div>
         </div>
-      ))}
+      ))} */}
       <CommentForm
         t={t}
         exists={select.exists}

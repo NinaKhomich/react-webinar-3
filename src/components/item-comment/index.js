@@ -12,14 +12,14 @@ function ItemComment(props) {
     e.preventDefault;
     onOpenReply(comment._id);
   };
-  let date = changeFormatDate(comment.date);
-  console.log(date);
+  const date = changeFormatDate(comment.dateCreate, t('locale'));
+
   return (
     <div className={cn()}>
       <div className={cn('wrap')}>
         <div className={cn('head')}>
           <h3 className={cn('author')}>{comment.author.profile.name}</h3>
-          <span className={cn('date')}>{comment.date}</span>
+          <span className={cn('date')}>{date}</span>
         </div>
         <p className={cn('text')}>{comment.text}</p>
         <button className={cn('reply-btn')} onClick={handleOpenReply}>
