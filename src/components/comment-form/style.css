@@ -37,6 +37,7 @@
 }
 
 .CommentForm-message {
+  padding: 15px 0;
   display: flex;
 }
 
