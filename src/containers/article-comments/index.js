@@ -53,30 +53,32 @@ function ArticleComments() {
   });
 
   const renderCommentsList = list => {
-    return list.map(item => (
-      <div key={item._id}>
+    return list.map(item => {
+      return (<div key={item._id} style={{ marginLeft: item.parent._type == 'comment' && '30px' }}>
         <ItemComment t={t} comment={item} onOpenReply={callbacks.openformComment} />
         {item.children && item.children.length != 0 ? renderCommentsList(item.children) : null}
         {selectRedux.selectedCommentId === item._id ? (
-          <CommentForm
-            t={t}
-            onSubmit={addComment}
-            parent={{ _id: item._id, _type: 'comment' }}
-            exists={select.exists}
-            commentText={`${t('commentFormReply.text')} ${item.author.profile.name}`}
-            label={t('commentFormReply.title')}
-            commentLinkLogin={t('commentForm.link')}
-            requiredText={t('commentFormReply.textRequire')}
-          >
-            <Controls
-              onClick={callbacks.closeformComment}
-              btnText={t('comment.cancelBtn')}
-              theme={select.exists ? '' : '_theme_unexists'}
-            />
-          </CommentForm>
+          <div style={{ marginLeft: item.children.length != 0 && '30px' }}>
+            <CommentForm
+              t={t}
+              onSubmit={addComment}
+              parent={{ _id: item._id, _type: 'comment' }}
+              exists={select.exists}
+              commentText={`${t('commentFormReply.text')} ${item.author.profile.name}`}
+              label={t('commentFormReply.title')}
+              commentLinkLogin={t('commentForm.link')}
+              requiredText={t('commentFormReply.textRequire')}
+            >
+              <Controls
+                onClick={callbacks.closeformComment}
+                btnText={t('comment.cancelBtn')}
+                theme={select.exists ? '' : '_theme_unexists'}
+              />
+            </CommentForm>
+          </div>
         ) : null}
-      </div>
-    ));
+      </div>)
+    });
   };
 
   return (
