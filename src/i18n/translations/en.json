@@ -28,9 +28,9 @@
   "commentForm.title": "New comment",
   "commentForm.text": "Text",
   "commentFormReply.title": "New reply",
-  "commentFormReply.text": "My reply for ",
   "comment.cancelBtn": "Cancel",
   "commentForm.link": "Enter",
   "commentFormReply.textRequire": "to be able to respond",
-  "commentForm.textRequire": "to be able to comment"
+  "commentForm.textRequire": "to be able to comment",
+  "required.text": "Enter the text"
 }

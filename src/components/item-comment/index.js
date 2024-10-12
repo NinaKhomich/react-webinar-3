@@ -5,7 +5,7 @@ import './style.css';
 import changeFormatDate from '../../utils/change-format-date';
 
 function ItemComment(props) {
-  const { comment, t = text => text, onOpenReply = () => {} } = props;
+  const { comment, owner, t = text => text, onOpenReply = () => {} } = props;
   const cn = bem('ItemComment');
 
   const handleOpenReply = e => {
@@ -18,7 +18,9 @@ function ItemComment(props) {
     <div className={cn()}>
       <div className={cn('wrap')}>
         <div className={cn('head')}>
-          <h3 className={cn('author')}>{comment.author.profile.name}</h3>
+          <h3 className={cn('author', owner == comment.author.profile.name && { theme: 'owner' })}>
+            {comment.author.profile.name}
+          </h3>
           <span className={cn('date')}>{date}</span>
         </div>
         <p className={cn('text')}>{comment.text}</p>
@@ -34,8 +36,9 @@ ItemComment.propTypes = {
   comment: PropTypes.shape({
     _id: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
     text: PropTypes.string,
-    author: PropTypes.object,
+    owner: PropTypes.string,
   }),
+  currentUser: PropTypes.object,
   t: PropTypes.func,
   onOpenReply: PropTypes.func,
 };

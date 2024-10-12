@@ -3,6 +3,10 @@
   justify-content: flex-end;
 }
 
+.Controls-button {
+  cursor: pointer;
+}
+
 .Controls-button_theme_unexists {
   margin-left: 5px;
   padding: 0;

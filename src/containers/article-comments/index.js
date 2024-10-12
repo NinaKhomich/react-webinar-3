@@ -10,11 +10,13 @@ import formActions from '../../store-redux/form/actions.js';
 import Controls from '../../components/controls';
 import shallowequal from 'shallowequal';
 import useSelector from '../../hooks/use-selector';
-import { useParams } from 'react-router-dom';
+import { useLocation, useNavigate, useParams } from 'react-router-dom';
 
 function ArticleComments() {
   const { t } = useTranslate();
   const dispatch = useDispatch();
+  const navigate = useNavigate();
+  const location = useLocation();
   const params = useParams();
 
   const selectRedux = useSelectorRedux(
@@ -40,10 +42,14 @@ function ArticleComments() {
     addNewComment: useCallback((value, parent, author) => {
       dispatch(commentsActions.addNewComment(value, parent, author));
     }),
+    navigateToLogin: useCallback(() => {
+      navigate('/login', { state: { back: location.pathname } });
+    }, [location.pathname]),
   };
 
   const addComment = (value, parent) => {
     callbacks.addNewComment(value, parent, select.currentUser);
+    callbacks.closeformComment();
   };
 
   const commentsTree = listToTree(selectRedux.comments);
@@ -52,45 +58,61 @@ function ArticleComments() {
     item.children ? (comments = item.children) : null;
   });
 
+  const setDepth = (list, depth = 0) => {
+    return list.map(item => {
+      item.depth = depth + 1;
+      item.children.length > 0 && setDepth(item.children, item.depth);
+      return item;
+    });
+  };
+
+  console.log(setDepth(comments));
   const renderCommentsList = list => {
     return list.map(item => {
-      return (<div key={item._id} style={{ marginLeft: item.parent._type == 'comment' && '30px' }}>
-        <ItemComment t={t} comment={item} onOpenReply={callbacks.openformComment} />
-        {item.children && item.children.length != 0 ? renderCommentsList(item.children) : null}
-        {selectRedux.selectedCommentId === item._id ? (
-          <div style={{ marginLeft: item.children.length != 0 && '30px' }}>
-            <CommentForm
-              t={t}
-              onSubmit={addComment}
-              parent={{ _id: item._id, _type: 'comment' }}
-              exists={select.exists}
-              commentText={`${t('commentFormReply.text')} ${item.author.profile.name}`}
-              label={t('commentFormReply.title')}
-              commentLinkLogin={t('commentForm.link')}
-              requiredText={t('commentFormReply.textRequire')}
-            >
-              <Controls
-                onClick={callbacks.closeformComment}
-                btnText={t('comment.cancelBtn')}
-                theme={select.exists ? '' : '_theme_unexists'}
-              />
-            </CommentForm>
-          </div>
-        ) : null}
-      </div>)
+      return (
+        <div key={item._id} style={{ marginLeft: item.depth > 1 && item.depth <= 10 && '30px' }}>
+          <ItemComment
+            t={t}
+            comment={item}
+            owner={select.currentUser.profile?.name}
+            onOpenReply={callbacks.openformComment}
+          />
+          {item.children && item.children.length != 0 ? renderCommentsList(item.children) : null}
+          {selectRedux.selectedCommentId === item._id ? (
+            <div style={{ marginLeft: item.children.length != 0 && item.depth < 10 && '30px' }}>
+              <CommentForm
+                t={t}
+                onSubmit={addComment}
+                navigateToLogin={callbacks.navigateToLogin}
+                parent={{ _id: item._id, _type: 'comment' }}
+                exists={select.exists}
+                label={t('commentFormReply.title')}
+                commentLinkLogin={t('commentForm.link')}
+                requiredText={t('commentFormReply.textRequire')}
+              >
+                <Controls
+                  onClick={callbacks.closeformComment}
+                  btnText={t('comment.cancelBtn')}
+                  theme={select.exists ? '' : '_theme_unexists'}
+                />
+              </CommentForm>
+            </div>
+          ) : null}
+        </div>
+      );
     });
   };
 
   return (
     <Comments t={t} count={selectRedux.comments.length}>
-      {renderCommentsList(comments)}
+      {renderCommentsList(setDepth(comments))}
       {(comments.length == 0 || (comments.length > 0 && !selectRedux.selectedCommentId)) && (
         <CommentForm
           t={t}
           parent={{ _id: params.id, _type: 'article' }}
           onSubmit={addComment}
+          navigateToLogin={callbacks.navigateToLogin}
           exists={select.exists}
-          commentText={t('commentForm.text')}
           label={t('commentForm.title')}
           commentLinkLogin={t('commentForm.link')}
           requiredText={t('commentForm.textRequire')}

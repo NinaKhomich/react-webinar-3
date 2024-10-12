@@ -30,9 +30,9 @@
   "commentForm.title": "Новый комментарий",
   "commentForm.text": "Текст",
   "commentFormReply.title": "Новый ответ",
-  "commentFormReply.text": "Мой ответ для ",
   "comment.cancelBtn": "Отмена",
   "commentForm.link": "Войдите",
   "commentFormReply.textRequire": "чтобы иметь возможность ответить",
-  "commentForm.textRequire": "чтобы иметь возможность комментировать"
+  "commentForm.textRequire": "чтобы иметь возможность комментировать",
+  "required.text": "Введите текст"
 }

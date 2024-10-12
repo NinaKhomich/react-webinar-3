@@ -2,30 +2,31 @@ import { memo, useState } from 'react';
 import PropTypes from 'prop-types';
 import { cn as bem } from '@bem-react/classname';
 import './style.css';
-import { Link } from 'react-router-dom';
 
 function CommentForm(props) {
   const {
     parent,
-    commentText,
     label,
     commentLinkLogin,
     requiredText,
     children,
     exists = false,
+    navigateToLogin = () => {},
     onSubmit = () => {},
     t = text => text,
   } = props;
   const cn = bem('CommentForm');
   const [value, setValue] = useState(props.value);
+  const [empty, setEmpty] = useState(false);
 
   const handleOnSubmit = event => {
     event.preventDefault();
-    onSubmit(value, parent);
+    /\S/.test(value) ? onSubmit(value, parent) : setEmpty(true);
     setValue('');
   };
 
   const handleOnChange = event => {
+    setEmpty(false);
     setValue(event.target.value);
   };
 
@@ -39,8 +40,9 @@ function CommentForm(props) {
             onChange={handleOnChange}
             className={cn('textarea')}
             name="text"
-            placeholder={commentText}
+            placeholder={t('commentForm.text')}
           />
+          {empty && <span className={cn('error')}>{t('required.text')}</span>}
           <div className={cn('buttons')}>
             <button className={cn('btn')}>{t('comment.sendBtn')}</button>
             {children}
@@ -48,12 +50,10 @@ function CommentForm(props) {
         </form>
       ) : (
         <div className={cn('message')}>
-          <p className={cn('text')}>
-            <Link className={cn('link')} to="/login">
-              {commentLinkLogin}
-            </Link>
-            {`, ${requiredText}.`}
-          </p>
+          <button className={cn('link')} onClick={navigateToLogin}>
+            {commentLinkLogin}
+          </button>
+          <p className={cn('text')}>{`, ${requiredText}.`}</p>
           {children}
         </div>
       )}
@@ -68,6 +68,7 @@ CommentForm.propTypes = {
   requiredText: PropTypes.string,
   children: PropTypes.node,
   exists: PropTypes.bool,
+  navigateToLogin: PropTypes.func,
   onSubmit: PropTypes.func,
   t: PropTypes.func,
   parent: PropTypes.object,
