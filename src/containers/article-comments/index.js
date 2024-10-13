@@ -1,4 +1,4 @@
-import { memo, useCallback } from 'react';
+import { memo, useCallback, useEffect, useRef } from 'react';
 import ItemComment from '../../components/item-comment';
 import CommentForm from '../../components/comment-form';
 import Comments from '../../components/comments';
@@ -18,6 +18,7 @@ function ArticleComments() {
   const navigate = useNavigate();
   const location = useLocation();
   const params = useParams();
+  const itemToScroll = useRef();
 
   const selectRedux = useSelectorRedux(
     state => ({
@@ -47,6 +48,10 @@ function ArticleComments() {
     }, [location.pathname]),
   };
 
+  useEffect(() => {
+    itemToScroll.current?.scrollIntoView({behavior: 'smooth', block: "center"});
+  }, [selectRedux.selectedCommentId]);
+
   const addComment = (value, parent) => {
     callbacks.addNewComment(value, parent, select.currentUser);
     callbacks.closeformComment();
@@ -66,7 +71,6 @@ function ArticleComments() {
     });
   };
 
-  console.log(setDepth(comments));
   const renderCommentsList = list => {
     return list.map(item => {
       return (
@@ -79,7 +83,7 @@ function ArticleComments() {
           />
           {item.children && item.children.length != 0 ? renderCommentsList(item.children) : null}
           {selectRedux.selectedCommentId === item._id ? (
-            <div style={{ marginLeft: item.children.length != 0 && item.depth < 10 && '30px' }}>
+            <div ref={itemToScroll} style={{ marginLeft: item.children.length != 0 && item.depth < 10 && '30px' }}>
               <CommentForm
                 t={t}
                 onSubmit={addComment}
