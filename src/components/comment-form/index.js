@@ -21,7 +21,7 @@ function CommentForm(props) {
 
   const handleOnSubmit = event => {
     event.preventDefault();
-    /\S/.test(value) ? onSubmit(value, parent) : setEmpty(true);
+    /\S/.test(value) && value ? onSubmit(value, parent) : setEmpty(true);
     setValue('');
   };
 
